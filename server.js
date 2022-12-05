@@ -5,6 +5,10 @@ const connect = require("./config/dbConfig");
 require("dotenv").config();
 app.use(express.json());
 
+const userRoute = require("./routes/userRoute");
+
+
+
 const port = process.env.PORT || 5000;
 
 app.listen(port, () => {

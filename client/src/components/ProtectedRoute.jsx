@@ -15,7 +15,7 @@ export const ProtectedRoute = (props) => {
 
         try{
             dispatch(showLoading())
-            const response = await axios.post("/api/user/get-user-info-by-email",
+            const response = await axios.post("/api/user/get-user-info-by-id",
             { 
               token: localStorage.getItem("token") 
             },

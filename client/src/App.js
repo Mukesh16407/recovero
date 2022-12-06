@@ -19,7 +19,8 @@ function App() {
        <Routes>
        <Route path="/" element={<Dashboard/>}/>
        <Route path="/login" element={  <PublicRoute><Login/></PublicRoute>}/>
-        <Route path="/signup" element={  <PublicRoute><SignUp/></PublicRoute>}/>
+        <Route path="/register" element={  <PublicRoute><SignUp isSignup={true}/></PublicRoute>}/>
+        <Route path="/add-member"  element={  <PublicRoute><SignUp/></PublicRoute>}/>
        </Routes>
      
     </div>

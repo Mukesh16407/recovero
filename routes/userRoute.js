@@ -30,6 +30,49 @@ router.post("/register", async (req, res) => {
     }
   });
 
+// add-member
+  router.post("/add-member",authMiddleware, async (req, res) => {
+    try {
+  
+      const userExists = await User.findOne({ email: req.body.email });
+      if(userExists){
+        return res.status(200).send({ message: "User already exists", success: false });
+      }
+     const password = req.body.password;
+     const salt = await bcrypt.genSaltSync(10);
+     const hashPassword = await bcrypt.hash(password,salt);
+  
+     req.body.password = hashPassword;
+  
+     const newUser = new User(req.body);
+     await newUser.save();
+  
+     res.status(200).send({message:"user created successfully",success:true})
+    } catch (error) {
+      console.log(error);
+      res.status(500).send({ message: "Error creating user", success: false, error });
+    }
+  });
+
+// all members
+  router.get('/allusers',authMiddleware, async (req, res) =>{
+
+    try {
+      const members = await User.find(req?.body ? req.body : {});
+      res.status(200).send({
+        message: "members fetched successfully",
+        success: true,
+        data: members,
+      });
+    } catch (error) {
+      res.status(500).send({
+        message: error.message,
+        success: false,
+      });
+    }
+  })
+
+
 
   // login user
   router.post("/login", async (req, res) => {
@@ -47,30 +90,13 @@ router.post("/register", async (req, res) => {
         const token = jwt.sign({id:user.id},process.env.JWT_SECRET,{
           expiresIn:"1d"
         });
-        res.status(200).send({ message: "Login successful", success: true, data: token });
+        res.status(200).send({ message: "Login successful", success: true, token: token});
       }
     } catch (err) {
       console.log(err);
-      res .status(500).send({ message: "Error logging in", success: false, error });
+      res .status(500).send({ message: "Error logging in", success: false, err });
     }
   });
- // get user-info-by-id
-
-  router.post('/get-user-info-by-email',authMiddleware, async(req,res)=>{
-    try{
-     const user = await User.findOne({email:req.body.email});
-     user.password = undefined;
-     if(!user){
-      return res.status({message:"User does not exist", success:false});
-  
-     }else{
-      res.status(200).send({success:true, 
-        data:user
-        })
-     }
-    }catch(err){
-      res.status(500).send({message:"Error getting user info", success:false, error})
-    }
-  })
+ 
   (module.exports = router);
   

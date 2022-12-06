@@ -6,7 +6,7 @@ import axios from "axios";
 import { hideLoading, showLoading } from "../redux/alertSlice";
 import toast from "react-hot-toast";
 
-export const SignUp = () => {
+export const SignUp = (props) => {
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -14,7 +14,18 @@ export const SignUp = () => {
   const onFinish =async(values)=>{
     try{
       dispatch(showLoading())
-     const response = await axios.post("/api/user/register",values);
+      let payload = JSON.parse(JSON.stringify(values));
+      let isAdmin = false;
+      let response = null;
+      // const token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYzOGY3NDQ3Mzg5N2EwOTA2MmQwYmIwNyIsImlhdCI6MTY3MDM1MDE0OCwiZXhwIjoxNjcwNDM2NTQ4fQ.kDPVIViS4lVGv21tn3io_6g2oL3y86K7qCd3Jwqq1F4'
+      if(props.isSignup){
+        isAdmin = true;
+        response = await axios.post("/api/user/register",{...payload, isAdmin});
+      }else{
+        const token = localStorage.getItem("token");
+        response = await axios.post("/api/user/add-member",{...payload, isAdmin}, { headers: { Authorization: `Bearer ${token}` , 'Content-Type': 'application/json'}});
+      }
+      
      dispatch(hideLoading())
      if(response.data.success){
       toast.success(response.data.message);
@@ -43,10 +54,11 @@ export const SignUp = () => {
         <Form.Item label="Password" name="password">
           <Input placeholder="Password" type="password" />
         </Form.Item>
-        <button className="primary text-white px-5 my-2 w-100">REGISTER</button>
-        <Link to="/login" className=" text-mini">
+        <button className="primary text-white px-5 my-2 w-100">{props.isSignup ?  'REGISTER' : 'ADD MEMBER'}</button>
+       {props.isSignup && <Link to="/login" className=" text-mini">
           Already Registered , Click Here To Login
         </Link>
+        }
       </Form>
     </div>
   );

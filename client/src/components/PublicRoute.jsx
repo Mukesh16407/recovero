@@ -7,7 +7,7 @@ export const PublicRoute = (props) => {
 
     useEffect(() => {
         if (localStorage.getItem("token")) {
-          navigate("/user");
+          navigate("/allusers");
         }
       }, []);
   return (

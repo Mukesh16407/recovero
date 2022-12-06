@@ -1,4 +1,5 @@
 import { Route, Routes } from "react-router-dom";
+import React from "react";
 import "./styles/theme.css";
 import "./styles/layout.css";
 import { Toaster } from "react-hot-toast";
@@ -8,7 +9,8 @@ import { PublicRoute } from "./components/PublicRoute";
 import { ProtectedRoute } from "./components/ProtectedRoute";
 import {Dashboard} from './pages/Dashboard';
 import {Login} from './pages/Login';
-import {SignUp} from './pages/SignUp'
+import {SignUp} from './pages/SignUp';
+import {Users} from  './pages/Users'
 function App() {
   const { loading } = useSelector((state) => state.alerts);
   return (
@@ -21,6 +23,7 @@ function App() {
        <Route path="/login" element={  <PublicRoute><Login/></PublicRoute>}/>
         <Route path="/register" element={  <PublicRoute><SignUp isSignup={true}/></PublicRoute>}/>
         <Route path="/add-member"  element={  <PublicRoute><SignUp/></PublicRoute>}/>
+        <Route path="/allusers"  element={  <PublicRoute><Users/></PublicRoute>}/>
        </Routes>
      
     </div>

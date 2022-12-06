@@ -1,18 +1,24 @@
-import { Form } from 'antd';
-import { Link } from 'react-router-dom';
-import React from 'react'
-import { response } from 'express';
+import {  Form, Input } from "antd";
+import { Link, useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import axios from "axios";
+import { hideLoading, showLoading } from "../redux/alertSlice";
+import toast from "react-hot-toast";
+import React from "react";
+
 
 export const Login = () => {
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  let response = null;
 
   const onFinish =async(values)=>{
     try{
         response = await axios.post("/api/user/login",values);
      if(response.data.success){
       toast.success(response.data.message);
-      let token = localStorage.setItem("token", response.data.tokne);
-      
-      navigate('/users')
+      localStorage.setItem("token", response.data.token);
+      navigate('/allusers')
      }else{
       toast.error(response.data.message);
      }

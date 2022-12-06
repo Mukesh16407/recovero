@@ -3,7 +3,7 @@ import { Navigate, useNavigate } from "react-router-dom";
 import { hideLoading, showLoading } from "../redux/alertSlice";
 import { setUser } from "../redux/userSlice";
 import axios from "axios";
-import { useEffect } from "react";
+import React,{ useEffect } from "react";
 
 export const ProtectedRoute = (props) => {
 

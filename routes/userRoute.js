@@ -70,10 +70,10 @@ router.post("/register", async (req, res) => {
         success: false,
       });
     }
-  })
+  });
 
 
-
+  
   // login user
   router.post("/login", async (req, res) => {
     try {
@@ -97,6 +97,33 @@ router.post("/register", async (req, res) => {
       res .status(500).send({ message: "Error logging in", success: false, err });
     }
   });
- 
+
+  router.post('/delete-member/:_id',authMiddleware, async(req,res)=>{
+
+    try{
+      const member = await User.findOneAndDelete({
+        _id: req.params._id,
+      });
+      if (!member) {
+        return res.send({
+          message: "member not found",
+          success: false,
+        });
+      }
+      res.status(200).send({
+        message: "member deleted successfully",
+        success: true,
+        data: member,
+      });
+  
+    }catch(error){
+      res.status(500).send({
+        message: error.message,
+        success: false,
+      });
+  
+    }
+  });
+
   (module.exports = router);
   

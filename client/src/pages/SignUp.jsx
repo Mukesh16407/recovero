@@ -1,10 +1,11 @@
-import React from "react";
 import {  Form, Input } from "antd";
 import { Link, useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import axios from "axios";
 import { hideLoading, showLoading } from "../redux/alertSlice";
 import toast from "react-hot-toast";
+import React from "react";
+
 
 export const SignUp = (props) => {
 
@@ -16,22 +17,22 @@ export const SignUp = (props) => {
       dispatch(showLoading())
       let payload = JSON.parse(JSON.stringify(values));
       let isAdmin = false;
-      let response = null;
+      let resp = null;
       // const token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYzOGY3NDQ3Mzg5N2EwOTA2MmQwYmIwNyIsImlhdCI6MTY3MDM1MDE0OCwiZXhwIjoxNjcwNDM2NTQ4fQ.kDPVIViS4lVGv21tn3io_6g2oL3y86K7qCd3Jwqq1F4'
       if(props.isSignup){
         isAdmin = true;
-        response = await axios.post("/api/user/register",{...payload, isAdmin});
+        resp = await axios.post("/api/user/register",{...payload, isAdmin});
       }else{
         const token = localStorage.getItem("token");
-        response = await axios.post("/api/user/add-member",{...payload, isAdmin}, { headers: { Authorization: `Bearer ${token}` , 'Content-Type': 'application/json'}});
+        resp = await axios.post("/api/user/add-member",{...payload, isAdmin}, { headers: { Authorization: `Bearer ${token}` , 'Content-Type': 'application/json'}});
       }
       
      dispatch(hideLoading())
-     if(response.data.success){
-      toast.success(response.data.message);
+     if(resp.data.success){
+      toast.success(resp.data.message);
       navigate('/login')
      }else{
-      toast.error(response.data.message)
+      toast.error(resp.data.message)
      }
     }catch(err){
       dispatch(hideLoading())

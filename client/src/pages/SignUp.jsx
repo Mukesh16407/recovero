@@ -31,7 +31,7 @@ export const SignUp = (props) => {
      dispatch(hideLoading())
      if(resp.data.success){
       toast.success(resp.data.message);
-      navigate('/login')
+      props.isAdmin ? navigate('/login') : navigate('/allusers')
      }else{
       toast.error(resp.data.message)
      }

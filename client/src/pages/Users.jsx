@@ -1,4 +1,4 @@
-import { Table } from 'antd';
+import { Table, Row, Col } from 'antd';
 import axios from 'axios';
 import React from 'react';
 import { useState, useEffect } from 'react';
@@ -15,17 +15,12 @@ export const Users = () => {
     const [userData, setUserData] = useState([]);
 
     const getdata = async (valus) => {
-
       try{
         dispatch(showLoading());
-        const response = await axios.post(
-          "/api/userst/allusers",
-          {},
-          {
-            headers: {
-              Authorization: `Bearer ${localStorage.getItem("token")}`,
-            },
-          }
+        const token = localStorage.getItem('token');
+        const response = await axios.get(
+          "/api/user/allusers",
+          { headers: { Authorization: `Bearer ${token}` , 'Content-Type': 'application/json'}},
         )
         dispatch(hideLoading());
         if (response.data.success) {
@@ -83,7 +78,31 @@ export const Users = () => {
         </button>
 
         </div>
-        <Table  />
+        {userData.length >0 ?(
+          <Row  gutter={[20, 20]}>
+             <Col span={24}>
+             <h1 className="text-large my-3">Members list </h1>
+             <hr />
+             </Col>
+             {userData.map((member)=>{
+              return(
+                <div   className="card p-2 cursor-pointer primary-border"
+                onClick={() => {
+                  navigate(`/users/${member._id}`);
+                }}>
+                   <h1 className="text-medium">{member.name}</h1>
+                <hr />
+                <h1 className="text-small">Class : {member.email}</h1>
+
+              </div>
+              )
+             })}
+          </Row>
+        ):(
+           <div className="d-flex align-items-center justify-content-center mt-5 pt-5">
+          <h1 className="text-medium">No Results Found</h1>
+        </div>
+        )}
   </div>
   )
 }

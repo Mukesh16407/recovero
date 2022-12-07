@@ -17,9 +17,8 @@ export const Dashboard = () => {
     
     try{
       dispatch(showLoading());
-      const response = await axios.post(
-        "/api/users/allusers",
-        {},
+      const response = await axios.get(
+        "/api/user/allusers",
         {
           headers: {
             Authorization: `Bearer ${localStorage.getItem("token")}`,

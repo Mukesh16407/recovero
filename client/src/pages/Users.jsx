@@ -67,7 +67,7 @@ export const Users = () => {
             <input 
              type="text"
              className="w-300 px-2"
-             placeholder="search students"/>
+             placeholder="search members"/>
              <button
           className="primary text-white px-3"
           onClick={() => {

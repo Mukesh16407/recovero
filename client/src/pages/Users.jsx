@@ -11,6 +11,7 @@ export const Users = () => {
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  // eslint-disable-next-line
     const [userData, setUserData] = useState([]);
 
     const getdata = async (valus) => {
@@ -37,8 +38,8 @@ export const Users = () => {
         toast.error(error.message);
       }
     }
-
-    const deleteStudent = async (id) => {
+// eslint-disable-next-line
+    const deleteMember = async (id) => {
       try {
         dispatch(showLoading());
         const response = await axios.post(

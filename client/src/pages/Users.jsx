@@ -76,7 +76,7 @@ export const Users = () => {
              <button
           className="primary text-white px-3"
           onClick={() => {
-            navigate("/register");
+            navigate("/add-member");
           }}
         >
           Add Member

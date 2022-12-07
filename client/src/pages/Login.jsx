@@ -14,7 +14,9 @@ export const Login = () => {
 
   const onFinish =async(values)=>{
     try{
+        dispatch(showLoading());
         response = await axios.post("/api/user/login",values);
+        dispatch(hideLoading());
      if(response.data.success){
       toast.success(response.data.message);
       localStorage.setItem("token", response.data.token);
@@ -33,13 +35,16 @@ export const Login = () => {
       <h1 className="text-medium ">
         <b>RECOVERO</b>
       </h1>
+      <hr/>
+      <h1 className="text-medium">Employee - Login</h1>
+        <hr />
       <Form.Item label="Email" name="email">
         <Input placeholder="Email" />
       </Form.Item>
       <Form.Item label="Password" name="password">
         <Input placeholder="Password" type="password" />
       </Form.Item>
-      <button className="primary text-white px-5 my-2 w-100">{'Login'}</button>
+      <button className="primary text-white px-5 my-2 w-100">LOGIN</button>
      <Link to="/register" className=" text-mini">
         Don't have an account , Click Here To Register
       </Link>

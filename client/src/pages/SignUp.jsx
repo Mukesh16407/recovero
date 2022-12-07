@@ -11,6 +11,7 @@ export const SignUp = (props) => {
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
+ 
 
   const onFinish =async(values)=>{
     try{

@@ -1,26 +1,88 @@
+import { Table } from 'antd';
 import axios from 'axios';
 import React from 'react';
 import { useState, useEffect } from 'react';
+import toast from 'react-hot-toast';
+import { useDispatch } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
+import { hideLoading, showLoading } from '../redux/alertSlice';
 
 export const Users = () => {
+
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
     const [userData, setUserData] = useState([]);
-    const getdata = async () => {
-        let token = localStorage.getItem('token')
-        let response = await axios.get('/api/user/allusers',{ headers: { Authorization: `Bearer ${token}` , 'Content-Type': 'application/json'}})
-        return response.data
+
+    const getdata = async (valus) => {
+
+      try{
+        dispatch(showLoading());
+        const response = await axios.post(
+          "/api/userst/allusers",
+          {},
+          {
+            headers: {
+              Authorization: `Bearer ${localStorage.getItem("token")}`,
+            },
+          }
+        )
+        dispatch(hideLoading());
+        if (response.data.success) {
+          setUserData(response.data.data);
+        } else {
+          toast.error(response.data.message);
+        }
+      }catch(error){
+        dispatch(hideLoading());
+        toast.error(error.message);
+      }
     }
-    // useEffect(()=>{
-    //     let userData = getdata();
-    //     setUserData(userData)
-    // })
+
+    const deleteStudent = async (id) => {
+      try {
+        dispatch(showLoading());
+        const response = await axios.post(
+          `/api/users/delete-member/${id}`,
+          {},
+          {
+            headers: {
+              Authorization: `Bearer ${localStorage.getItem("token")}`,
+            },
+          }
+        );
+        dispatch(hideLoading());
+        if (response.data.success) {
+          getdata();
+          toast.success(response.data.message);
+        } else {
+          toast.error(response.data.message);
+        }
+      } catch (error) {
+        dispatch(hideLoading());
+        toast.error(error.message);
+      }
+    };
+    useEffect(()=>{
+      getdata();
+    },[])
   return (
   <div>
-    <div>All Users</div>
-    <table>
-        {userData.length > 0 && userData.map(user=>{
-            return <tr><td>{user.name}</td><td>{user.email}</td></tr>
-        })}
-    </table>
+    <div className="d-flex justify-content-between align-items-center my-3">
+            <input 
+             type="text"
+             className="w-300 px-2"
+             placeholder="search students"/>
+             <button
+          className="primary text-white px-3"
+          onClick={() => {
+            navigate("/register");
+          }}
+        >
+          Add Member
+        </button>
+
+        </div>
+        <Table  />
   </div>
   )
 }

@@ -6,7 +6,6 @@ import { Toaster } from "react-hot-toast";
 import Spinner from './components/spinner'
 import { useSelector } from "react-redux";
 import { PublicRoute } from "./components/PublicRoute";
-import { ProtectedRoute } from "./components/ProtectedRoute";
 import {Dashboard} from './pages/Dashboard';
 import {Login} from './pages/Login';
 import {SignUp} from './pages/SignUp';

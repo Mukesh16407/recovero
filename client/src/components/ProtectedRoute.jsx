@@ -31,12 +31,12 @@ export const ProtectedRoute = (props) => {
             
           } else {
            localStorage.clear()
-            navigate("/login");
+            navigate("/");
           }
         }catch(error){
             dispatch(hideLoading());
             localStorage.clear()
-            navigate("/login");
+            navigate("/");
 
         }
     }

@@ -4,6 +4,7 @@ import React, { useEffect, useState } from 'react'
 import toast from 'react-hot-toast';
 import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
+import { DefaultLayout } from '../components/DefaultLayout';
 import { hideLoading, showLoading } from '../redux/alertSlice';
 
 export const Dashboard = () => {
@@ -44,23 +45,9 @@ export const Dashboard = () => {
     }
   }, []);
   return (
-    <div className="p-5">
-      <div className="header d-flex justify-content-between align-items-center py-3">
-      <h1 className="text-white">
-          
-          <b className="secondary-text">R</b>ecovero 
-        </h1>
-        <div>
-        <h1
-            className="text-white text-small cursor-pointer underline"
-            onClick={() => {
-              navigate("/login");
-            }}
-          >
-            Login
-          </h1>
-        </div>
-        </div>
+    <DefaultLayout>
+       <div className="p-2">
+      
         {members.length >0 ?(
           <Row  gutter={[20, 20]}>
              <Col span={24}>
@@ -87,5 +74,8 @@ export const Dashboard = () => {
         </div>
         )}
     </div>
+
+    </DefaultLayout>
+   
   )
 }

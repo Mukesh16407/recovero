@@ -1,10 +1,11 @@
-import { Table, Row, Col } from 'antd';
+import { Table, Row, Col,Popconfirm, Button, Space } from 'antd';
 import axios from 'axios';
 import React from 'react';
 import { useState, useEffect } from 'react';
 import toast from 'react-hot-toast';
 import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
+import { DefaultLayout } from '../components/DefaultLayout';
 import { hideLoading, showLoading } from '../redux/alertSlice';
 
 export const Users = () => {
@@ -60,9 +61,47 @@ export const Users = () => {
     };
     useEffect(()=>{
       getdata();
-    },[])
+    },[]);
+
+    const columns = [
+      {
+        title: "Name",
+        dataIndex: "name",
+        align: "center",
+        
+      },
+      {
+        title: "Email",
+        dataIndex: "email",
+        align: "center",
+        
+      },
+      {
+        title: "Action",
+        dataIndex: "action",
+        align: "center",
+        render: (text, record) =>{
+          //const editable = isEditing(record);
+         return userData.length >= 1 ? (
+            <Space>
+              <Popconfirm
+                title="Are you sure want to delete?"
+                onConfirm={() => deleteMember(record)}
+              >
+                <Button danger type="primary">
+                  Delete
+                </Button>
+              </Popconfirm>
+              
+              
+            </Space>
+          ) : null;
+        }
+      },
+    ]
   return (
-  <div>
+    <DefaultLayout>
+      <div>
     <div className="d-flex justify-content-between align-items-center my-3">
             <input 
              type="text"
@@ -78,31 +117,10 @@ export const Users = () => {
         </button>
 
         </div>
-        {userData.length >0 ?(
-          <Row  gutter={[20, 20]}>
-             <Col span={24}>
-             <h1 className="text-large my-3">Members list </h1>
-             <hr />
-             </Col>
-             {userData.map((member)=>{
-              return(
-                <div   className="card p-2 cursor-pointer primary-border"
-                onClick={() => {
-                  navigate(`/users/${member._id}`);
-                }}>
-                   <h1 className="text-medium">{member.name}</h1>
-                <hr />
-                <h1 className="text-small">Class : {member.email}</h1>
-
-              </div>
-              )
-             })}
-          </Row>
-        ):(
-           <div className="d-flex align-items-center justify-content-center mt-5 pt-5">
-          <h1 className="text-medium">No Results Found</h1>
-        </div>
-        )}
+        
   </div>
+      <Table columns={columns} dataSource={userData}/>
+    </DefaultLayout>
+  
   )
 }

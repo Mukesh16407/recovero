@@ -9,7 +9,10 @@ import { PublicRoute } from "./components/PublicRoute";
 import {Dashboard} from './pages/Dashboard';
 import {Login} from './pages/Login';
 import {SignUp} from './pages/SignUp';
-import {Users} from  './pages/Users'
+import {Users} from  './pages/Users';
+import {Billing} from './pages/Biling'
+import { ProtectedRoute } from "./components/ProtectedRoute";
+
 function App() {
   const { loading } = useSelector((state) => state.alerts);
   return (
@@ -20,9 +23,10 @@ function App() {
        <Routes>
        <Route path="/" element={<Dashboard/>}/>
        <Route path="/login" element={  <PublicRoute><Login/></PublicRoute>}/>
-        <Route path="/register" element={  <PublicRoute><SignUp isSignup={true}/></PublicRoute>}/>
-        <Route path="/add-member"  element={  <PublicRoute><SignUp/></PublicRoute>}/>
-        <Route path="/allusers"  element={  <PublicRoute><Users/></PublicRoute>}/>
+        <Route path="/register" element={  <SignUp isSignup={true}/>}/>
+        <Route path="/billing"  element={ <Billing/> }/>
+        <Route path="/add-member"  element={  <SignUp/>}/>
+        <Route path="/allusers"  element={ <Users/>}/>
        </Routes>
      
     </div>

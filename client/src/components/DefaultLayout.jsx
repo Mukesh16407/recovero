@@ -13,11 +13,27 @@ export const DefaultLayout = (props) => {
             <div className="header d-flex justify-content-between align-items-center">
             <h1 className="text-white">
               {" "}
-              <b className="secondary-text">R</b> ecovero {" "}
+              <b className="secondary-text">R</b>ecovero {" "}
             </h1>
              <div>
-             <h1 className="text-white text-small">{user?.name}</h1>
-             <h1
+             <span
+            className="text-white text-small cursor-pointer underline"
+            onClick={() => {
+              navigate("/add-member");
+            }}
+          >
+            Users
+          </span>
+          <span
+            className="text-white text-small cursor-pointer underline m-3"
+            onClick={() => {
+              navigate("/billing");
+            }}
+          >
+            Billing
+          </span>
+            
+             <span
                 className="text-white text-small cursor-pointer underline"
                 onClick={() => {
                   localStorage.removeItem("token");
@@ -25,7 +41,7 @@ export const DefaultLayout = (props) => {
                 }}
               >
                 Logout
-              </h1>
+              </span>
              </div>
             </div>
             <div className="content">{props.children}</div>
